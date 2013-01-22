@@ -6,12 +6,14 @@ div {
 	text-align:center;
 }
 
-#imgDiv {
+#charDiv {
 	margin-top:10%;
+	font-size:50;
 }
 
-#rImgDiv {
+#rCharDiv {
 	margin-top:10%;
+	font-size:50;
 }
 
 a {
@@ -25,4 +27,3 @@ a {
 #scoreDiv {
 	font-size:small;
 }
-

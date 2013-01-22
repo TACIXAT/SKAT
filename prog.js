@@ -1,54 +1,74 @@
-var srcList = [
-	[ //vowels
-		"ae.gif",
-		"a.gif",
-		"e.gif",
-		"eo.gif",
-		"eu.gif",
-		"i.gif",
-		"oe.gif",
-		"o.gif",
-		"u.gif",
-		"ui.gif",
-		"wae.gif",
-		"wa.gif",
-		"we.gif",
-		"wi.gif",
-		"wo.gif",
-		"yae.gif",
-		"ya.gif",
-		"ye.gif",
-		"yeo.gif",
-		"yo.gif",
-		"yu.gif"],
-	[ //consonants
-		"bp.gif",
-		"ch.gif",
-		"dt.gif",
-		"gk.gif",
-		"h.gif",
-		"j.gif",
-		"jj.gif",
-		"k.gif",
-		"kk.gif",
-		"m.gif",
-		"ng.gif",
-		"n.gif",
-		"p.gif",
-		"pp.gif",
-		"rl.gif",
-		"s.gif",
-		"ss.gif",
-		"t.gif",
-		"tt.gif"]
+ranges = [[0, 13], [14, 18], [19, 29], [30, 35], [36, 39], [40, 44], [45, 50]];
+charList = 
+	[
+		//simple consonants 0-13
+		["g", "ㄱ"],
+		["n", "ㄴ"],
+		["d", "ㄷ"],
+		["l/r", "ㄹ"],
+		["m", "ㅁ"],
+		["b", "ㅂ"],
+		["s", "ㅅ"],
+		["null/ng", "ㅇ"],
+		["j", "ㅈ"],
+		["ch", "ㅊ"],
+		["k", "ㅋ"],
+		["t", "ㅌ"],
+		["p", "ㅍ"],
+		["h", "ㅎ"],
+		 //double consonants 14-18
+		["kk", "ㄲ"],
+		["tt", "ㄸ"],
+		["pp", "ㅃ"], 
+		["ss", "ㅆ"],
+		["jj", "ㅉ"],
+		//consonant clusters 19-29
+		["gs", "ㄳ"],
+		["nj", "ㄵ"],
+		["nh", "ㄶ"],
+		["lg", "ㄺ"],
+		["lm", "ㄻ"],
+		["lb", "ㄼ"],
+		["ls", "ㄽ"],
+		["lt", "ㄾ"],
+		["lp", "ㄿ"],
+		["lh", "ㅀ"],
+		["bs", "ㅄ"],
+		//simple vowels 30-35
+		["a", "ㅏ"],
+		["eo", "ㅓ"], 
+		["o", "ㅗ"],
+		["u", "ㅜ"], 
+		["eu", "ㅡ"],
+		["i", "ㅣ"],
+		//iotized vowels 36-39
+		["ya", "ㅑ"], 
+		["yeo", "ㅕ"], 
+		["yo", "ㅛ"], 
+		["yu", "ㅠ"],
+		//diphtongs 40-44
+		["ae", "ㅐ"],
+		["yae", "ㅒ"],
+		["e", "ㅔ"],
+		["ye", "ㅖ"],
+		["ui", "ㅢ"],
+		//with w 45-50
+		["wa", "ㅘ"],
+		["wae", "ㅙ"],
+		["oe", "ㅚ"],
+		["wo", "ㅝ"],
+		["we", "ㅞ"],
+		["wi", "ㅟ"]
+		//...
 	];
 
-sDir = ["vowels/", "consonants/"];
 score = 0;
 completed = 0;
+currentReview = 0;
 
 $(document).ready(function() {
 	$("#reviewDiv").hide();
+	$("#settingsDiv").hide();
 	getNewQuiz();
 });
 
@@ -67,58 +87,42 @@ function toggleChoices(show){
 }
 
 function getNewQuiz() {
-	var vows = $("#useVowels").prop("checked");
-	var cons = $("#useConsonants").prop("checked");
+	//var vows = $("#useVowels").prop("checked");
+	//var cons = $("#useConsonants").prop("checked");
 	toggleChoices(true);
-	if(vows || cons){
-		resetValues();
-		correct = selectRandomCharacter(true, vows, cons);
-		setButtonChoices(correct, vows, cons);
-	} else {
-		$("#useVowels").prop("checked", "true");
-		vows = $("#useVowels").prop("checked");
-		resetValues();
-		correct = selectRandomCharacter(true, vows, cons);
-		setButtonChoices(correct, vows, cons);
-	}
+	
+	resetValues();
+	correct = selectRandomCharacter(true);
+	setButtonChoices(correct);
 };
 
 function resetValues() {
 	$("#answer").html("Select an answer.");
-	$("#feedback").html("(The correct answer.)");
+	$("#feedback").html("(The correct answer)");
 	$("#feedback").css("color", "black");
 	$("#feedbackDiv").attr('onclick', '').unbind('click');
 };
 
-function selectRandomCharacter(setImg, vows, cons) {
-	var srcIdx = 0;
-	if(vows && cons) {
-		srcIdx = Math.floor(Math.random()*2);
-	} else if(cons) {
-		srcIdx = 1;
-	}
-
-	var lstIdx = Math.floor(Math.random()*srcList[srcIdx].length);
+function selectRandomCharacter(setChar) {
+	var lstIdx = Math.floor(Math.random()*charList.length);
 	
-	if(setImg) {
-		var srcDir = srcIdx == 0 ? "vowels/" : "consonants/";
-		$("#charImg").attr("src", srcDir + srcList[srcIdx][lstIdx]);
+	if(setChar) {
+		$("#charDiv").html(charList[lstIdx][1]);
 	}
 	
-	var dotIdx = srcList[srcIdx][lstIdx].indexOf(".");
-	return srcList[srcIdx][lstIdx].substring(0,dotIdx);
+	return charList[lstIdx][0];
 };
 
-function setButtonChoices(correct, vows, cons) {
+function setButtonChoices(correct) {
 	buttons = ["#c1", "#c2", "#c3"];
 	idxList = getRandomList();
 	
 	$(buttons[idxList[0]]).html(correct);
 
 	for(i=1; i<idxList.length; i++) {
-		var choice = selectRandomCharacter(false, vows, cons);
+		var choice = selectRandomCharacter(false);
 		while(choice == correct){
-			choice = selectRandomCharacter(false, vows, cons);
+			choice = selectRandomCharacter(false);
 		}
 		$(buttons[idxList[i]]).html(choice);
 	}
@@ -172,47 +176,20 @@ function getNext() {
 	var vows = $("#rUseVowels").prop("checked");
 	var cons = $("#rUseConsonants").prop("checked");
 	var rand = $("#rUseRandom").prop("checked");
-	var currSrc = parseInt($("#rMeta").attr("name"));
-	var currIdx = parseInt($("#rMeta").attr("value"));
 
-	console.log(currSrc);
-	console.log(currIdx);
+	console.log(currentReview);
 
-	if(!(cons && vows)){
-		newSrc = 0;
-		if(cons)
-			newSrc = 1;
+	if(!rand)
+		currentReview++;
+	else
+		currentReview = Math.floor(Math.random()*charList.length);
 
-		if((newSrc - currSrc) != 0){
-			currIdx = 0;
-		}
-		currSrc = newSrc;
-	}
-
-	if(!rand){
-		currIdx++;
-		currIdx %= srcList[currSrc].length;
-		if(currIdx == 0 && cons && vows){
-			currSrc++;
-			currSrc %= srcList.length;
-		}
-	} else {
-		if(cons && vows)
-			currSrc = Math.floor(Math.random()*2);
-		currIdx = Math.floor(Math.random()*srcList[currSrc].length);
-	}
-
-	setReview(currSrc, currIdx);
+	currentReview %= charList.length;
+	setReview(currentReview);
 };
 
-function setReview(currSrc, currIdx){
-	srcList[currSrc][currIdx];
-	var srcDir = currSrc == 0 ? "vowels/" : "consonants/";
-	var charName = srcList[currSrc][currIdx];
-	var dotIdx = srcList[currSrc][currIdx].indexOf(".");
-	$("#rMeta").attr("name", currSrc);
-	$("#rMeta").attr("value", currIdx);
-	$("#rImg").attr("src", srcDir + charName);
-	$("#rName").html(charName.substring(0,dotIdx));
-
+function setReview(currChar){
+	//srcList[currSrc];
+	$("#rCharDiv").html(charList[currChar][1]);
+	$("#rName").html(charList[currChar][0]);
 };

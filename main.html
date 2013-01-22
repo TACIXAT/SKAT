@@ -1,0 +1,62 @@
+<html>
+	<head>
+		<LINK href="main.css" rel="stylesheet" type="text/css">
+		<script src="jquery-1.9.0.min.js"></script>
+		<script src="prog.js"></script>
+	</head>
+
+	<body>
+		<div id="modeDiv">
+			<a id="quizMode" href="#" onclick="toggleQuiz(true)">quiz</a>
+			<a id="reviewMode" href="#" onclick="toggleQuiz(false)">review</a>
+		</div>
+
+		<div id="quizDiv">
+			<div id="imgDiv">
+				<img id="charImg" src="vowels/a.gif"></img>
+			</div>
+			</br>
+			<div id="choiceDiv">
+				<button id="c1" onClick="checkAnswer(this.innerHTML)">c1</buton>
+				<button id="c2" onClick="checkAnswer(this.innerHTML)">c2</buton>
+				<button id="c3" onClick="checkAnswer(this.innerHTML)">c3</buton>
+				<button id="reload" onClick="getNewQuiz()">reload</button>
+			</div>
+			<div id="feedbackDiv">
+				<h1 id="answer">Select an answer.</h1>
+				<h2 id="feedback"></h2>
+				<br>
+			</div>
+			<div id="settingsDiv">
+				<input id="useVowels" type="checkbox">Vowels</input>
+				<input id="useConsonants" type="checkbox">Consonants</input>
+			</div>
+		</div>
+
+		<div id="reviewDiv">
+			<div id="rImgDiv">
+				<img id="rImg" src="vowels/a.gif"></img>
+			</div>
+			<div id="rInfo">
+				<h1 id="rName">a</h1>
+				<span id="rMeta" name="0" value="1"></span>
+			</div>
+			<div id="rButtonDiv">
+				<button id="rNext" onClick="getNext()">next</buton>
+			</div>
+			<br>
+			<div id="rSettingsDiv">
+				<input id="rUseVowels" type="checkbox">Vowels</input>
+				<input id="rUseConsonants" type="checkbox">Consonants</input>
+				<!--br-->
+				<input id="rUseRandom" type="checkbox">Random</input>
+			</div>
+		</div>
+
+		<br><br><br>
+
+		<div id="scoreDiv">
+			&nbsp;score: 0&nbsp;&nbsp;&nbsp;&nbsp;completed: 0
+		</div>
+	</body>
+</html>

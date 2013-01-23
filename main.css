@@ -11,6 +11,16 @@ div {
 	font-size:50;
 }
 
+#settingsDiv {
+	margin-left:44%;
+	text-align:left;
+}
+
+#rSettingsDiv {
+	margin-left:44%;
+	text-align:left;
+}
+
 #rCharDiv {
 	margin-top:10%;
 	font-size:50;

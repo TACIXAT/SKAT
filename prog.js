@@ -1,4 +1,5 @@
-ranges = [[0, 13], [14, 18], [19, 29], [30, 35], [36, 39], [40, 44], [45, 50]];
+sectionRanges = [[0, 13], [14, 18], [19, 29], [30, 35], [36, 39], [40, 44], [45, 50]];
+sectionNames = ["simple consonants", "double consonants", "consonant clusters", "simple vowels", "iotized vowels", "diphtongs", "assorted vowels with w"];
 charList = 
 	[
 		//simple consonants 0-13
@@ -68,9 +69,43 @@ currentReview = 0;
 
 $(document).ready(function() {
 	$("#reviewDiv").hide();
-	$("#settingsDiv").hide();
+	//$("#settingsDiv").hide();
+	loadSections();
 	getNewQuiz();
 });
+
+function loadSections() {
+	sectionHTML = "";
+	rSectionHTML = "";
+	for(i=0; i<sectionNames.length; i++){
+		sectionHTML += "<input id=\"option" + i + "\" checked=\"yes\" type=\"checkbox\" onclick=\"safeCheckbox(this.id, true)\">" + sectionNames[i] + "</input><br>";
+		rSectionHTML += "<input id=\"rOption" + i + "\" checked=\"yes\" type=\"checkbox\" onclick=\"safeCheckbox(this.id, false)\">" + sectionNames[i] + "</input><br>";
+	}
+	$("#settingsDiv").html(sectionHTML);
+	$("#rSettingsDiv").html(rSectionHTML);
+};
+
+function safeCheckbox(boxId, quiz) {
+	var baseId = "#option";
+	if(!quiz)
+		baseId = "#rOption";
+
+	for(i=0; i<sectionNames.length; i++){
+		if($(baseId+i).prop("checked"))
+			return true;
+	}
+
+	$("#"+boxId).prop("checked", true);
+};
+
+//quiz functions
+function getNewQuiz() {
+	toggleChoices(true);
+	
+	resetValues();
+	correct = selectRandomCharacter(true);
+	setButtonChoices(correct);
+};
 
 function toggleChoices(show){
 	if(show){
@@ -86,16 +121,6 @@ function toggleChoices(show){
 	}
 }
 
-function getNewQuiz() {
-	//var vows = $("#useVowels").prop("checked");
-	//var cons = $("#useConsonants").prop("checked");
-	toggleChoices(true);
-	
-	resetValues();
-	correct = selectRandomCharacter(true);
-	setButtonChoices(correct);
-};
-
 function resetValues() {
 	$("#answer").html("Select an answer.");
 	$("#feedback").html("(The correct answer)");
@@ -106,11 +131,34 @@ function resetValues() {
 function selectRandomCharacter(setChar) {
 	var lstIdx = Math.floor(Math.random()*charList.length);
 	
+	while(!checkRange(lstIdx, true))
+		lstIdx = Math.floor(Math.random()*charList.length);
+
 	if(setChar) {
 		$("#charDiv").html(charList[lstIdx][1]);
 	}
 	
 	return charList[lstIdx][0];
+};
+
+function checkRange(target, quiz) {
+	var i=0;
+	for(i=0; i<sectionRanges.length; i++) {
+		if(target >= sectionRanges[i][0] && target <= sectionRanges[i][1])
+			break;
+	}
+
+	if(quiz) {
+		if($("#option"+i).prop("checked"))
+			return true;
+		else
+			return false;
+	} else {
+		if($("#rOption"+i).prop("checked"))
+			return true;
+		else
+			return false;
+	}
 };
 
 function setButtonChoices(correct) {
@@ -172,19 +220,16 @@ function toggleQuiz(showQuiz){
 	}
 };
 
+//review functions
 function getNext() {
-	var vows = $("#rUseVowels").prop("checked");
-	var cons = $("#rUseConsonants").prop("checked");
-	var rand = $("#rUseRandom").prop("checked");
-
-	console.log(currentReview);
-
-	if(!rand)
-		currentReview++;
-	else
-		currentReview = Math.floor(Math.random()*charList.length);
-
+	currentReview++;
 	currentReview %= charList.length;
+
+	while(!checkRange(currentReview, false)) {
+		currentReview++;
+		currentReview %= charList.length;
+	}
+	//currentReview = Math.floor(Math.random()*charList.length);
 	setReview(currentReview);
 };
 

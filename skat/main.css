@@ -1,0 +1,39 @@
+body {
+	font-family:monospace;
+}
+
+div {
+	text-align:center;
+}
+
+#charDiv {
+	margin-top:10%;
+	font-size:50;
+}
+
+#settingsDiv {
+	margin-left:44%;
+	text-align:left;
+}
+
+#rSettingsDiv {
+	margin-left:44%;
+	text-align:left;
+}
+
+#rCharDiv {
+	margin-top:10%;
+	font-size:50;
+}
+
+a {
+	padding-right:50;
+	padding-left:50;
+	text-decoration:none;
+	color:black;
+	font-size:small;
+}
+
+#scoreDiv {
+	font-size:small;
+}

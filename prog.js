@@ -1,5 +1,5 @@
-sectionRanges = [[0, 13], [14, 18], [19, 29], [30, 35], [36, 39], [40, 44], [45, 50]];
-sectionNames = ["simple consonants", "double consonants", "consonant clusters", "simple vowels", "iotized vowels", "diphtongs", "assorted vowels with w"];
+sectionRanges = [[0, 13], [14, 18], [19, 29], [30, 35], [36, 39], [40, 44], [45, 50], [51, 60]];
+sectionNames = ["simple consonants", "double consonants", "consonant clusters", "simple vowels", "iotized vowels", "diphtongs", "assorted vowels with w", "numbers"];
 charList = 
 	[
 		//simple consonants 0-13
@@ -59,8 +59,28 @@ charList =
 		["oe", "ㅚ"],
 		["wo", "ㅝ"],
 		["we", "ㅞ"],
-		["wi", "ㅟ"]
-		//...
+		["wi", "ㅟ"],
+		//numbers 51-60
+		// ["hana (1)", "하나"],
+		// ["dul (2)", "둘"],
+		// ["set (3)", "셋"],
+		// ["net (4)", "넷"],
+		// ["daseot (5)", "다섯"],
+		// ["yeoseot (6)", "여섯"],
+		// ["ilgop (7)", "일곱"],
+		// ["yeodeol (8)", "여덟"],
+		// ["ahop (9)", "아홉"],
+		// ["yeol (10)", "열"]
+		["1", "하나"],
+		["2", "둘"],
+		["3", "셋"],
+		["4", "넷"],
+		["5", "다섯"],
+		["6", "여섯"],
+		["7", "일곱"],
+		["8", "여덟"],
+		["9", "아홉"],
+		["10", "열"]
 	];
 
 score = 0;
